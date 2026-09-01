@@ -18,3 +18,6 @@ reports/*
 # OS/editor files
 .DS_Store
 Thumbs.db
+
+grafana-data/
+prometheus-data/
