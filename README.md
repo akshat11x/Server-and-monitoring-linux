@@ -468,17 +468,15 @@ This provides a real-time visual representation of server health.
 ## Screenshots
 Grafana Dashboard
 ```
-
-```
-Prometheus Targets
-```
+![Grafana Dashboard](screenshots/dashboard.png)
 ```
 Critical Alert Email
 ```
+![Critical Email](screenshots/crtical_email.png)
 ```
 Recovery Email
 ```
-
+![Recovery Email](screenshots/recovery_email.png)
 ```
 
 ---
