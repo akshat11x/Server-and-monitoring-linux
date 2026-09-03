@@ -466,18 +466,18 @@ This provides a real-time visual representation of server health.
 ---
 
 ## Screenshots
-Grafana Dashboard
-```markdown
+
+### Grafana Dashboard
+
 ![Grafana Dashboard](screenshots/dashboard.png)
 
-Critical Alert Email
-```markdown
+### Critical Alert Email
+
 ![Critical Email](screenshots/crtical_email.png)
 
-Recovery Email
-```markdown
-![Recovery Email](screenshots/recovery_email.png)
+### Recovery Email
 
+![Recovery Email](screenshots/recovery_email.png)
 
 ---
 ## 🔐 Security Considerations
