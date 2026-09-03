@@ -3,9 +3,6 @@ logs/*.log
 logs/*.state
 logs/*.1
 
-# Generated reports
-reports/*
-
 # Temporary files
 *.tmp
 *.swp
