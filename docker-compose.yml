@@ -9,11 +9,10 @@ services:
       - "9090:9090"
 
     volumes:
-      - ~/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
 
     command:
-
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
 
@@ -27,10 +26,10 @@ services:
     restart: unless-stopped
 
     command:
-      - '--path.procfs=/host/proc'
-      - '--path.sysfs=/host/sys'
-      - '--path.rootfs=/host'
-      - '--collector.filesystem.fs-types-exclude=^(9p|tmpfs|overlay|squashfs)$'
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.rootfs=/host"
+      - "--collector.filesystem.fs-types-exclude=^(9p|tmpfs|overlay|squashfs)$"
 
     volumes:
       - /proc:/host/proc:ro
@@ -54,6 +53,8 @@ services:
 
     volumes:
       - grafana-data:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
 
     networks:
       - monitoring

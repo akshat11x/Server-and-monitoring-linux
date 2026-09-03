@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Server Health Alert</title>
+</head>
+
+<body style="
+    margin:0;
+    padding:20px;
+    background:#f3f4f6;
+    font-family:Arial, Helvetica, sans-serif;
+    color:#1f2937;
+">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td align="center">
+
+<table width="700" cellpadding="0" cellspacing="0" border="0"
+       style="
+           width:700px;
+           max-width:100%;
+           background:#ffffff;
+           border-radius:10px;
+           overflow:hidden;
+           box-shadow:0 3px 12px rgba(0,0,0,0.08);
+       ">
+
+    <!-- HEADER -->
+    <tr>
+        <td style="
+            background:${HEADER_COLOR};
+            padding:25px 30px;
+            color:#ffffff;
+        ">
+
+            <div style="
+                font-size:28px;
+                font-weight:bold;
+            ">
+                ${STATUS_ICON} Server Health ${ALERT_TITLE}
+            </div>
+
+            <div style="
+                margin-top:8px;
+                font-size:14px;
+                opacity:0.9;
+            ">
+                ${HOSTNAME}
+            </div>
+
+        </td>
+    </tr>
+
+
+    <!-- SERVER INFORMATION -->
+    <tr>
+        <td style="padding:25px 30px 10px 30px;">
+
+            <h3 style="
+                margin:0 0 15px 0;
+                font-size:17px;
+            ">
+                Server Information
+            </h3>
+
+            <table width="100%" cellpadding="10" cellspacing="0"
+                   style="border-collapse:collapse;">
+
+                <tr>
+                    <td style="
+                        width:35%;
+                        color:#6b7280;
+                        font-weight:bold;
+                        font-size:13px;
+                        border-bottom:1px solid #e5e7eb;
+                    ">
+                        Hostname
+                    </td>
+
+                    <td style="
+                        font-size:13px;
+                        border-bottom:1px solid #e5e7eb;
+                    ">
+                        ${HOSTNAME}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="
+                        color:#6b7280;
+                        font-weight:bold;
+                        font-size:13px;
+                        border-bottom:1px solid #e5e7eb;
+                    ">
+                        IP Address
+                    </td>
+
+                    <td style="
+                        font-size:13px;
+                        border-bottom:1px solid #e5e7eb;
+                    ">
+                        ${IP_ADDRESS}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="
+                        color:#6b7280;
+                        font-weight:bold;
+                        font-size:13px;
+                        border-bottom:1px solid #e5e7eb;
+                    ">
+                        Timestamp
+                    </td>
+
+                    <td style="
+                        font-size:13px;
+                        border-bottom:1px solid #e5e7eb;
+                    ">
+                        ${TIMESTAMP}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="
+                        color:#6b7280;
+                        font-weight:bold;
+                        font-size:13px;
+                        border-bottom:1px solid #e5e7eb;
+                    ">
+                        Previous Status
+                    </td>
+
+                    <td style="
+                        font-size:13px;
+                        border-bottom:1px solid #e5e7eb;
+                    ">
+                        ${PREVIOUS_STATUS}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="
+                        color:#6b7280;
+                        font-weight:bold;
+                        font-size:13px;
+                    ">
+                        Current Status
+                    </td>
+
+                    <td style="
+                        font-size:13px;
+                        font-weight:bold;
+                        color:${HEADER_COLOR};
+                    ">
+                        ${OVERALL_STATUS}
+                    </td>
+                </tr>
+
+            </table>
+
+        </td>
+    </tr>
+
+
+    <!-- METRICS -->
+    <tr>
+        <td style="padding:15px 30px 25px 30px;">
+
+            <h3 style="
+                margin:0 0 15px 0;
+                font-size:17px;
+            ">
+                System Metrics
+            </h3>
+
+            <table width="100%"
+                   cellpadding="0"
+                   cellspacing="0"
+                   border="0">
+
+                <!-- ROW 1 -->
+                <tr>
+
+                    <!-- CPU -->
+                    <td width="50%"
+                        valign="top"
+                        style="padding:0 5px 10px 0;">
+
+                        <table width="100%"
+                               cellpadding="0"
+                               cellspacing="0"
+                               style="
+                                   border:1px solid #e5e7eb;
+                                   border-left:5px solid ${CPU_COLOR};
+                                   border-radius:8px;
+                                   background:#fafafa;
+                               ">
+
+                            <tr>
+                                <td style="padding:16px;">
+
+                                    <div style="
+                                        font-size:12px;
+                                        color:#6b7280;
+                                        font-weight:bold;
+                                        text-transform:uppercase;
+                                    ">
+                                        CPU
+                                    </div>
+
+                                    <div style="
+                                        margin-top:8px;
+                                        font-size:28px;
+                                        font-weight:bold;
+                                        color:#1f2937;
+                                    ">
+                                        ${CPU_USAGE}%
+                                    </div>
+
+                                    <div style="
+                                        margin-top:5px;
+                                        font-size:12px;
+                                        font-weight:bold;
+                                        color:${CPU_COLOR};
+                                    ">
+                                        ${CPU_STATUS}
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </td>
+
+
+                    <!-- MEMORY -->
+                    <td width="50%"
+                        valign="top"
+                        style="padding:0 0 10px 5px;">
+
+                        <table width="100%"
+                               cellpadding="0"
+                               cellspacing="0"
+                               style="
+                                   border:1px solid #e5e7eb;
+                                   border-left:5px solid ${MEMORY_COLOR};
+                                   border-radius:8px;
+                                   background:#fafafa;
+                               ">
+
+                            <tr>
+                                <td style="padding:16px;">
+
+                                    <div style="
+                                        font-size:12px;
+                                        color:#6b7280;
+                                        font-weight:bold;
+                                        text-transform:uppercase;
+                                    ">
+                                        Memory
+                                    </div>
+
+                                    <div style="
+                                        margin-top:8px;
+                                        font-size:28px;
+                                        font-weight:bold;
+                                        color:#1f2937;
+                                    ">
+                                        ${MEMORY_USAGE}%
+                                    </div>
+
+                                    <div style="
+                                        margin-top:5px;
+                                        font-size:12px;
+                                        font-weight:bold;
+                                        color:${MEMORY_COLOR};
+                                    ">
+                                        ${MEMORY_STATUS}
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </td>
+
+                </tr>
+
+
+                <!-- ROW 2 -->
+                <tr>
+
+                    <!-- DISK -->
+                    <td width="50%"
+                        valign="top"
+                        style="padding:0 5px 0 0;">
+
+                        <table width="100%"
+                               cellpadding="0"
+                               cellspacing="0"
+                               style="
+                                   border:1px solid #e5e7eb;
+                                   border-left:5px solid ${DISK_COLOR};
+                                   border-radius:8px;
+                                   background:#fafafa;
+                               ">
+
+                            <tr>
+                                <td style="padding:16px;">
+
+                                    <div style="
+                                        font-size:12px;
+                                        color:#6b7280;
+                                        font-weight:bold;
+                                        text-transform:uppercase;
+                                    ">
+                                        Disk
+                                    </div>
+
+                                    <div style="
+                                        margin-top:8px;
+                                        font-size:28px;
+                                        font-weight:bold;
+                                        color:#1f2937;
+                                    ">
+                                        ${DISK_USAGE_NUMBER}%
+                                    </div>
+
+                                    <div style="
+                                        margin-top:5px;
+                                        font-size:12px;
+                                        font-weight:bold;
+                                        color:${DISK_COLOR};
+                                    ">
+                                        ${DISK_STATUS}
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </td>
+
+
+                    <!-- NETWORK -->
+                    <td width="50%"
+                        valign="top"
+                        style="padding:0 0 0 5px;">
+
+                        <table width="100%"
+                               cellpadding="0"
+                               cellspacing="0"
+                               style="
+                                   border:1px solid #e5e7eb;
+                                   border-left:5px solid ${NETWORK_COLOR};
+                                   border-radius:8px;
+                                   background:#fafafa;
+                               ">
+
+                            <tr>
+                                <td style="padding:16px;">
+
+                                    <div style="
+                                        font-size:12px;
+                                        color:#6b7280;
+                                        font-weight:bold;
+                                        text-transform:uppercase;
+                                    ">
+                                        Network
+                                    </div>
+
+                                    <div style="
+                                        margin-top:8px;
+                                        font-size:28px;
+                                        font-weight:bold;
+                                        color:${NETWORK_COLOR};
+                                    ">
+                                        ${NETWORK_STATUS}
+                                    </div>
+
+                                    <div style="
+                                        margin-top:5px;
+                                        font-size:12px;
+                                        font-weight:bold;
+                                        color:${NETWORK_COLOR};
+                                    ">
+                                        CONNECTIVITY
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </td>
+    </tr>
+
+
+    <!-- OVERALL STATUS -->
+    <tr>
+        <td style="padding:0 30px 25px 30px;">
+
+            <table width="100%"
+                   cellpadding="0"
+                   cellspacing="0"
+                   style="
+                       background:${STATUS_BACKGROUND};
+                       border-radius:8px;
+                   ">
+
+                <tr>
+                    <td style="
+                        padding:18px;
+                        text-align:center;
+                    ">
+
+                        <div style="
+                            font-size:13px;
+                            color:#6b7280;
+                            font-weight:bold;
+                            text-transform:uppercase;
+                        ">
+                            Overall Server Status
+                        </div>
+
+                        <div style="
+                            margin-top:5px;
+                            font-size:22px;
+                            font-weight:bold;
+                            color:${HEADER_COLOR};
+                        ">
+                            ${OVERALL_STATUS}
+                        </div>
+
+                    </td>
+                </tr>
+
+            </table>
+
+        </td>
+    </tr>
+
+
+    <!-- FOOTER -->
+    <tr>
+        <td style="
+            padding:18px 30px;
+            background:#f9fafb;
+            text-align:center;
+            color:#9ca3af;
+            font-size:12px;
+        ">
+            Linux Server Monitoring<br>
+            Automated Server Health Monitor
+        </td>
+    </tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

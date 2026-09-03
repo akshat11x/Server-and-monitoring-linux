@@ -4,6 +4,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 LOG_DIR="$SCRIPT_DIR/logs"
 CONFIG_FILE="$SCRIPT_DIR/config.conf"
+SEND_EMAIL_SCRIPT="$SCRIPT_DIR/send-email.sh"
 MONITOR_LOG="$LOG_DIR/monitor.log"
 ERROR_LOG="$LOG_DIR/error.log"
 
@@ -49,21 +50,13 @@ log_warning(){
 
 send_email(){
 	local subject="$1"
-	local body="$2"
 
-	if ! command -v mail > /dev/null 2>&1; then
-        	log_error "mail command not found. Cannot send email."
-        	return 1
-	fi
-
-	echo "$body" | mail -s "$subject" "$EMAIL_TO"
-
-	 if [ $? -eq 0 ]; then
-        	log_info "Email sent: $subject"
-    	 else
-        	log_error "Failed to send email: $subject"
-         	return 1
-    fi
+	if "$SEND_EMAIL_SCRIPT" "$subject"; then
+                log_info "Email sent: $subject"
+        else
+                log_error "Failed to send email: $subject"
+                return 1
+        fi
 
 }
 
@@ -136,26 +129,6 @@ generate_alert() {
     timestamp=$(date '+%Y-%m-%d %H:%M:%S')
     subject="[$OVERALL_STATUS] Server Health Alert - $HOSTNAME"
 
-    body="
-Server Health Alert
-===================
-
-Time     : $timestamp
-Hostname : $HOSTNAME
-IP       : $IP_ADDRESS
-
-Status changed:
-$PREVIOUS_STATUS -> $OVERALL_STATUS
-
-CPU      : $CPU_USAGE% - $CPU_STATUS
-Memory   : $MEMORY_USAGE% - $MEMORY_STATUS
-Disk     : $DISK_USAGE_NUMBER% - $DISK_STATUS
-Network  : $NETWORK_STATUS
-
-Overall Status : $OVERALL_STATUS
-
-Please check the server.
-"
 
     # Save alert to alert.log
     {
@@ -177,31 +150,11 @@ Please check the server.
 generate_recovery_alert() {
     local timestamp
     local subject
-    local body
+   
 
     timestamp=$(date '+%Y-%m-%d %H:%M:%S')
     subject="[RECOVERY] Server Health Recovered - $HOSTNAME"
 
-    body="
-Server Health Recovery
-======================
-
-Time     : $timestamp
-Hostname : $HOSTNAME
-IP       : $IP_ADDRESS
-
-Status changed:
-$PREVIOUS_STATUS -> $OVERALL_STATUS
-
-CPU      : $CPU_USAGE% - $CPU_STATUS
-Memory   : $MEMORY_USAGE% - $MEMORY_STATUS
-Disk     : $DISK_USAGE_NUMBER% - $DISK_STATUS
-Network  : $NETWORK_STATUS
-
-Overall Status : $OVERALL_STATUS
-
-The server has recovered to a healthy state.
-"
 
     {
         echo "========================================"
@@ -307,6 +260,23 @@ elif [ "$CPU_STATUS" = "WARNING" ] || \
 else
     OVERALL_STATUS="OK"
 fi
+
+export HOSTNAME
+export IP_ADDRESS
+export TIMESTAMP
+export PREVIOUS_STATUS
+export OVERALL_STATUS
+
+export CPU_USAGE
+export CPU_STATUS
+
+export MEMORY_USAGE
+export MEMORY_STATUS
+
+export DISK_USAGE_NUMBER
+export DISK_STATUS
+
+export NETWORK_STATUS
 
 # ==============================
 # Alert Detection
