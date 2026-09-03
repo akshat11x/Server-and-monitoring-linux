@@ -469,11 +469,11 @@ This provides a real-time visual representation of server health.
 
 ### Grafana Dashboard
 
-![Grafana Dashboard](screenshots/dashboard.png)
+![Grafana Dashboard](screenshots/dahsboard.png)
 
 ### Critical Alert Email
 
-![Critical Email](screenshots/crtical_email.png)
+![Critical Email](screenshots/critical_email.png)
 
 ### Recovery Email
 
