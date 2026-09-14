@@ -170,7 +170,20 @@ generate_recovery_alert() {
 
     send_email "$subject" "$body"
 }
-        
+ 
+#==============================
+#Checking the services
+#==============================
+check_service_status(){
+
+    local service="$1"
+
+    if systemctl is-active --quiet "$service"; then
+        echo "ACTIVE"
+    else
+        echo "INACTIVE"
+    fi
+}
 
 # ==============================
 # Server Information
@@ -240,6 +253,21 @@ else
         NETWORK_STATUS="DOWN"
 fi
 
+SERVICE_FAILURE=0
+SERVICE_RESULTS=""
+
+for service in "${MONITORED_SERVICES[@]}"; do
+
+    SERVICE_STATUS=$(check_service_status "$service")
+
+    SERVICE_RESULTS+="$service : $SERVICE_STATUS"$'\n'
+
+    if [[ "$SERVICE_STATUS" == "INACTIVE" ]]; then
+        SERVICE_FAILURE=1
+    fi
+
+done
+
 CPU_STATUS=$(check_status "$CPU_USAGE" "$WARNING_THRESHOLD" "$CRITICAL_THRESHOLD")
 MEMORY_STATUS=$(check_status "$MEMORY_USAGE" "$WARNING_THRESHOLD" "$CRITICAL_THRESHOLD")
 DISK_STATUS=$(check_status "$DISK_USAGE_NUMBER" "$WARNING_THRESHOLD" "$CRITICAL_THRESHOLD")
@@ -247,7 +275,8 @@ DISK_STATUS=$(check_status "$DISK_USAGE_NUMBER" "$WARNING_THRESHOLD" "$CRITICAL_
 if [ "$CPU_STATUS" = "CRITICAL" ] || \
    [ "$MEMORY_STATUS" = "CRITICAL" ] || \
    [ "$DISK_STATUS" = "CRITICAL" ] || \
-   [ "$NETWORK_STATUS" = "DOWN" ]; then
+   [ "$NETWORK_STATUS" = "DOWN" ] || \
+   [ "$SERVICE_FAILURE" -eq 1 ]; then
 
     OVERALL_STATUS="CRITICAL"
 
@@ -277,6 +306,8 @@ export DISK_USAGE_NUMBER
 export DISK_STATUS
 
 export NETWORK_STATUS
+export SERVICE_FAILURE
+export SERVICE_RESULTS
 
 # ==============================
 # Alert Detection
@@ -338,10 +369,14 @@ echo "======================================="
 echo
 echo "Logged-in Users : $USERS"
 echo "Network Status  : $NETWORK_STATUS"
+echo
+echo "======================================="
+echo "Service Status"
+echo "======================================="
+printf "%s" "$SERVICE_RESULTS"
 
 echo "========================================"
 } | tee -a "$MONITOR_LOG"
-
 
 if [ "$OVERALL_STATUS" = "CRITICAL" ]; then
     exit 2

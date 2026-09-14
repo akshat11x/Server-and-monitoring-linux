@@ -138,6 +138,7 @@ export STATUS_ICON
 
 export ALERT_TITLE
 export STATUS_BACKGROUND
+export SERVICE_RESULTS
 
 
 # =============================
